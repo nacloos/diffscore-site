@@ -57,12 +57,12 @@
 import {define} from "./_observablehq/client.js";
 import {registerFile} from "./_observablehq/stdlib.js";
 
-registerFile("./data/FreemanZiemba2013.csv", {"name":"./data/FreemanZiemba2013.csv","mimeType":"text/csv","path":"./_file/data/FreemanZiemba2013.2d83dd78.csv"});
-registerFile("./data/majajhong2015.csv", {"name":"./data/majajhong2015.csv","mimeType":"text/csv","path":"./_file/data/majajhong2015.ea8aeefb.csv"});
-registerFile("./data/siegel15-V4-var99.csv", {"name":"./data/siegel15-V4-var99.csv","mimeType":"text/csv","path":"./_file/data/siegel15-V4-var99.9c124ab3.csv"});
-registerFile("./data/ultrametric.csv", {"name":"./data/ultrametric.csv","mimeType":"text/csv","path":"./_file/data/ultrametric.36238027.csv"});
+registerFile("./data/FreemanZiemba2013.csv", {"name":"./data/FreemanZiemba2013.csv","mimeType":"text/csv","path":"./_file/data/FreemanZiemba2013.e4c185e4.csv"});
+registerFile("./data/Hatsopoulos2007.csv", {"name":"./data/Hatsopoulos2007.csv","mimeType":"text/csv","path":"./_file/data/Hatsopoulos2007.d366bd40.csv"});
+registerFile("./data/MajajHong2015.csv", {"name":"./data/MajajHong2015.csv","mimeType":"text/csv","path":"./_file/data/MajajHong2015.47cc1011.csv"});
+registerFile("./data/ultrametric.csv", {"name":"./data/ultrametric.csv","mimeType":"text/csv","path":"./_file/data/ultrametric.a75c5492.csv"});
 
-define({id: "73f03e52", inputs: ["FileAttachment"], outputs: ["datasets","datasetIds"], body: (FileAttachment) => {
+define({id: "0db273b7", inputs: ["FileAttachment"], outputs: ["datasets","datasetIds"], body: (FileAttachment) => {
 // TODO: not working
 // const datasetScores = {
 //   "ultrametric": FileAttachment("data/ultrametric.csv").csv({typed: true}),
@@ -80,10 +80,11 @@ define({id: "73f03e52", inputs: ["FileAttachment"], outputs: ["datasets","datase
 // const datasetIds = datasets.map(d => d.id);
 
 const datasets = new Map([
-  ["ultrametric", FileAttachment("data/ultrametric.csv").csv({typed: true})],
-  ["siegel15-V4-var99", FileAttachment("data/siegel15-V4-var99.csv").csv({typed: true})],
-  ["majajhong2015", FileAttachment("data/majajhong2015.csv").csv({typed: true})],
+  ["Ultrametric", FileAttachment("data/ultrametric.csv").csv({typed: true})],
+//  ["siegel15-V4-var99", FileAttachment("data/siegel15-V4-var99.csv").csv({typed: true})],
+  ["MajajHong2015", FileAttachment("data/MajajHong2015.csv").csv({typed: true})],
   ["FreemanZiemba2013", FileAttachment("data/FreemanZiemba2013.csv").csv({typed: true})],
+  ["Hatsopoulos2007", FileAttachment("data/Hatsopoulos2007.csv").csv({typed: true})],
 ]);
 const datasetIds = Array.from(datasets.keys());
 return {datasets,datasetIds};
@@ -178,7 +179,7 @@ return {filteredScores,plotScores};
 <div class="hero">
 <h1>Differentiable Optimization of Similarity Scores Between Models and Brains</h1>
 <h2>Nathan Cloos, Markus Siegel, Scott L. Brincat, Earl K. Miller, Christopher J. Cueva</h2>
-<div id="cell-73f03e52" class="observablehq observablehq--block"></div>
+<div id="cell-0db273b7" class="observablehq observablehq--block"></div>
 <div id="cell-9186eecf" class="observablehq observablehq--block"></div>
 <div id="cell-ec43caf8" class="observablehq observablehq--block"></div>
 <div id="cell-c9425610" class="observablehq observablehq--block"></div>
@@ -189,6 +190,6 @@ What metrics should guide the development of more realistic models of the brain?
 </div>
 </main>
 <footer id="observablehq-footer">
-<div>Built with <a href="https://observablehq.com/" target="_blank">Observable</a> on <a title="2024-03-17T20:59:47">Mar 17, 2024</a>.</div>
+<div>Built with <a href="https://observablehq.com/" target="_blank">Observable</a> on <a title="2024-03-17T21:21:07">Mar 17, 2024</a>.</div>
 </footer>
 </div>

@@ -69,10 +69,11 @@
 // const datasetIds = datasets.map(d => d.id);
 
 const datasets = new Map([
-  ["ultrametric", FileAttachment("data/ultrametric.csv").csv({typed: true})],
-  ["siegel15-V4-var99", FileAttachment("data/siegel15-V4-var99.csv").csv({typed: true})],
-  ["majajhong2015", FileAttachment("data/majajhong2015.csv").csv({typed: true})],
+  ["Ultrametric", FileAttachment("data/ultrametric.csv").csv({typed: true})],
+//  ["siegel15-V4-var99", FileAttachment("data/siegel15-V4-var99.csv").csv({typed: true})],
+  ["MajajHong2015", FileAttachment("data/MajajHong2015.csv").csv({typed: true})],
   ["FreemanZiemba2013", FileAttachment("data/FreemanZiemba2013.csv").csv({typed: true})],
+  ["Hatsopoulos2007", FileAttachment("data/Hatsopoulos2007.csv").csv({typed: true})],
 ]);
 const datasetIds = Array.from(datasets.keys());
 ```
