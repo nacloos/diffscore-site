@@ -33,7 +33,8 @@
 }
 
 .hero h2 {
-  margin: 0;
+  /* margin bottom */
+  margin: 0 0 2rem;
   max-width: 70vw;
   font-size: 20px;
   font-style: initial;
@@ -48,7 +49,7 @@
 <div class="hero">
 <h1>Differentiable Optimization of Similarity Scores Between Models and Brains</h1>
 
-<h2>Nathan Cloos, Markus Siegel, Scott L. Brincat, Earl K. Miller, Christopher J. Cueva</h2>
+<h2>Nathan Cloos, Markus Siegel, Scott L. Brincat, Earl K. Miller, Guangyu Robert Yang, Christopher J. Cueva</h2>
 
 
 ```js
