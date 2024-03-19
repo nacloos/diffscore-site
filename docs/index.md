@@ -191,6 +191,14 @@ TODO: create one large gif so that they are sync?
 
 ## Similarity Repository
 
+```js
+const measureCards = FileAttachment("data/cards/measures.csv").csv({typed: true});
+```
+
+```js
+view(Inputs.table(measureCards));
+```
+
 
 ```js
 // https://d3-graph-gallery.com/graph/heatmap_style.html
@@ -318,7 +326,6 @@ svg.append("text")
 display(svg.node())
 
 ```
-
 
 </div>
 

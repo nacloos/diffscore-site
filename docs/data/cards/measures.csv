@@ -1,0 +1,9 @@
+id,name,score,orthogonal-invariant,isotropic-scaling-invariant
+cka-angular-score,CKA Angular Score,True,False,
+rsa-correlation-corr,Representational Similarity Analysis,True,False,
+procrustes-angular-score,Procrustes Angular Score,True,False,
+cca-angular-score,CCA Angular Score,True,False,
+nbs-squared,NBS Squared,True,False,
+nbs,Normalized Bures Similarity,True,True,V
+nbs-angular-score,NBS Angular Score,True,False,
+cka,Centered Kernel Alignment,True,True,V
