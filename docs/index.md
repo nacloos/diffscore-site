@@ -150,10 +150,16 @@ What metrics should guide the development of more realistic models of the brain?
 
 
 
-Optimize randomly initialized dataset ${tex`Y`} (e.g. model dataset) to maximize similarity score with a reference dataset ${tex`X`} (e.g. brain dataset).
+Optimize randomly initialized dataset Y (e.g. model dataset) to maximize similarity score with a reference dataset X (e.g. brain dataset).
+
+<img style="margin: auto; margin-bottom: 2em;" src="./score_grad_ascent.png" width="250" />
+
+
+<!-- 
+TODO: error loading tex.js when deployed
 ```tex
 Y_{k+1}  = Y_k + \alpha \dfrac{\partial}{\partial Y} \text{score}(X, Y_k)
-```
+``` -->
 
 <div style="display: flex; justify-content: space-around; align-items: center; margin: auto;">
   <div style="text-align: center; width: 200px;">
@@ -254,7 +260,8 @@ Select a dataset and a set of metrics to compare.
 ```js
 // it seems that FileAttachment requires the path to be give as a single string literal
 const datasets = new Map([
-  ["Ultrametric", FileAttachment("data/decoding_acc_vs_scores/ultrametric.csv").csv({typed: true})],
+  // ["Ultrametric", FileAttachment("data/decoding_acc_vs_scores/ultrametric.csv").csv({typed: true})],
+  ["Ultrametric", FileAttachment("data/benchmarks/ultrametric/scores_vs_decoding_acc.csv").csv({typed: true})],
 //  ["siegel15-V4-var99", FileAttachment("data/siegel15-V4-var99.csv").csv({typed: true})],
   ["MajajHong2015", FileAttachment("data/decoding_acc_vs_scores/MajajHong2015.csv").csv({typed: true})],
   ["FreemanZiemba2013", FileAttachment("data/decoding_acc_vs_scores/FreemanZiemba2013.csv").csv({typed: true})],
@@ -271,6 +278,24 @@ const selectedData = view(Inputs.select(datasets, {label: "Dataset"}))
 <!-- TODO? paper link -->
 <!-- https://www.biorxiv.org/content/10.1101/2021.07.14.452926v1.full.pdf -->
 <!-- <a style="margin: 0; font-size: 12px" href="https://www.biorxiv.org/content/10.1101/2021.07.14.452926v1.full.pdf" target="_blank">Link to paper</a> -->
+
+<div style="margin-bottom: 8px"></div>
+
+```js
+// select task variables to decodeµ
+// get all the column names that start with "decode." and rename to remove the prefix
+const taskVariables = Object.keys(selectedData[0])
+  .filter(key => key.startsWith("decode."))
+  .map(key => key.replace("decode.", ""));
+const selectedVariable = view(Inputs.select(
+  taskVariables, {
+    label: "Decode Variable",
+    value: taskVariables,
+    sort: true
+  }
+));
+```
+<div style="margin-bottom: 8px"></div>
 
 ```js
 const defaultMeasures = ["cka", "procrustes-angular-score"]
@@ -304,7 +329,8 @@ const plotScores = Plot.plot({
       filteredScores, 
       {
         x: "score",
-        y: "decoding_accuracy",
+        // y: "decoding_accuracy",
+        y: `decode.${selectedVariable}`,
         stroke: "measure",
         tip: true,
         strokeWidth: 4
@@ -390,13 +416,20 @@ Invariance classes:
 </div>
 
 
-TODO: relationships between measures?
+<img src="data/cards/backends_matrix.png" width="1000" />
+
+<!-- TODO: relationships between measures? -->
+
+<!-- D3 heatmap is quite low-level and require a lot of work, use seaborn instead -->
+<!-- ```js
+const backends = FileAttachment("data/cards/backends.csv").csv({typed: true});
+```
 
 ```js
 // https://d3-graph-gallery.com/graph/heatmap_style.html
-
-const width = 200;
-const height = 200;
+const data = backends;
+const width = 1000;
+const height = 350;
 const color = d3.scaleOrdinal(d3.schemeObservable10);
 
 // append the svg object to the body of the page
@@ -409,115 +442,141 @@ const color = d3.scaleOrdinal(d3.schemeObservable10);
 const svg = d3.create("svg")
     .attr("width", width)
     .attr("height", height)
-    .attr("viewBox", [0, 0, width+20, height+50])
+    .attr("viewBox", [150, 0, width, height+200])
     // .attr("style", "max-width: 100%; height: auto;");
 
 //Read the data
-d3.csv("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/heatmap_data.csv").then(function(data) {
 
-  // Labels of row and columns -> unique identifier of the column called 'group' and 'variable'
-  const myGroups = Array.from(new Set(data.map(d => d.group)))
-  const myVars = Array.from(new Set(data.map(d => d.variable)))
+// Labels of row and columns -> unique identifier of the column called 'group' and 'variable'
+const myGroups = Array.from(new Set(data.map(d => d.group)))
+const myVars = Array.from(new Set(data.map(d => d.variable)))
 
-  // Build X scales and axis:
-  const x = d3.scaleBand()
-    .range([ 0, width ])
-    .domain(myGroups)
-    .padding(0.05);
-  svg.append("g")
-    .style("font-size", 15)
-    .attr("transform", `translate(0, ${height})`)
-    .call(d3.axisBottom(x).tickSize(0))
-    .select(".domain").remove()
+// Build X scales and axis:
+const x = d3.scaleBand()
+  .range([ 0, width ])
+  .domain(myGroups)
+  .padding(0.05);
+// svg.append("g")
+//   .style("font-size", 15)
+//   .attr("transform", `translate(0, ${height})`)
+//   .call(d3.axisBottom(x).tickSize(0))
+//   .select(".domain").remove()
+svg.append("g")
+  .style("font-size", 25)
+  .attr("transform", `translate(0, ${height})`)
+  .call(d3.axisBottom(x).tickSize(0))
+  .selectAll("text")
+    .style("text-anchor", "end")
+    .attr("dx", "-.8em")
+    .attr("dy", ".15em")
+    .attr("transform", "rotate(-90)");
 
-  // Build Y scales and axis:
-  const y = d3.scaleBand()
-    .range([ height, 0 ])
-    .domain(myVars)
-    .padding(0.05);
-  svg.append("g")
-    .style("font-size", 15)
-    .call(d3.axisLeft(y).tickSize(0))
-    .select(".domain").remove()
+svg.select(".domain").remove();
 
-  // Build color scale
-  const myColor = d3.scaleSequential()
-    .interpolator(d3.interpolateInferno)
-    .domain([1,100])
 
-  // create a tooltip
-  const tooltip = d3.select("#my_dataviz")
-    .append("div")
+// Build Y scales and axis:
+const y = d3.scaleBand()
+  .range([ height, 0 ])
+  .domain(myVars)
+  .padding(0.05);
+svg.append("g")
+  .style("font-size", 30)
+  .call(d3.axisLeft(y).tickSize(0))
+  .select(".domain").remove()
+
+
+// take data min value excluding -1
+const dataMin = d3.min(data, d => d.value === -1 ? Infinity : d.value);
+const dataMax = d3.max(data, d => d.value);
+// Build color scale
+// const myColor = d3.scaleSequential()
+//   .interpolator(d3.interpolateWarm)
+//   .domain([dataMax, dataMin])
+
+// linear scale from green to red
+const myColor = d3.scaleLinear()
+  .range(["green", "red"])
+  .domain([dataMin, dataMax])
+
+// create a tooltip
+const tooltip = d3.select("#my_dataviz")
+  .append("div")
+  .style("opacity", 0)
+  .attr("class", "tooltip")
+  .style("background-color", "white")
+  .style("border", "solid")
+  .style("border-width", "2px")
+  .style("border-radius", "5px")
+  .style("padding", "5px")
+
+// Three function that change the tooltip when user hover / move / leave a cell
+const mouseover = function(event,d) {
+  tooltip
+    .style("opacity", 1)
+  d3.select(this)
+    .style("stroke", "black")
+    .style("opacity", 1)
+}
+const mousemove = function(event,d) {
+  tooltip
+    .html("The exact value of<br>this cell is: " + d.value)
+    .style("left", (event.x)/2 + "px")
+    .style("top", (event.y)/2 + "px")
+}
+const mouseleave = function(event,d) {
+  tooltip
     .style("opacity", 0)
-    .attr("class", "tooltip")
-    .style("background-color", "white")
-    .style("border", "solid")
-    .style("border-width", "2px")
-    .style("border-radius", "5px")
-    .style("padding", "5px")
+  d3.select(this)
+    .style("stroke", "none")
+    .style("opacity", 0.8)
+}
 
-  // Three function that change the tooltip when user hover / move / leave a cell
-  const mouseover = function(event,d) {
-    tooltip
-      .style("opacity", 1)
-    d3.select(this)
-      .style("stroke", "black")
-      .style("opacity", 1)
-  }
-  const mousemove = function(event,d) {
-    tooltip
-      .html("The exact value of<br>this cell is: " + d.value)
-      .style("left", (event.x)/2 + "px")
-      .style("top", (event.y)/2 + "px")
-  }
-  const mouseleave = function(event,d) {
-    tooltip
-      .style("opacity", 0)
-    d3.select(this)
-      .style("stroke", "none")
-      .style("opacity", 0.8)
-  }
+// add the squares
+svg.selectAll()
+  .data(data, function(d) {return d.group+':'+d.variable;})
+  .join("rect")
+    .attr("x", function(d) { return x(d.group) })
+    .attr("y", function(d) { return y(d.variable) })
+    .attr("rx", 4)
+    .attr("ry", 4)
+    .attr("width", x.bandwidth() )
+    .attr("height", y.bandwidth() )
+    .style("fill", function(d) { 
+      // if -1 corresponds to nan, return transparent hex code
+      if (d.value === -1) {
+        return "#00000000";
+      }    
+      return myColor(d.value)
+    } )
+    .style("stroke-width", 4)
+    .style("stroke", "none")
+    .style("opacity", 0.8)
+  .on("mouseover", mouseover)
+  .on("mousemove", mousemove)
+  .on("mouseleave", mouseleave)
 
-  // add the squares
-  svg.selectAll()
-    .data(data, function(d) {return d.group+':'+d.variable;})
-    .join("rect")
-      .attr("x", function(d) { return x(d.group) })
-      .attr("y", function(d) { return y(d.variable) })
-      .attr("rx", 4)
-      .attr("ry", 4)
-      .attr("width", x.bandwidth() )
-      .attr("height", y.bandwidth() )
-      .style("fill", function(d) { return myColor(d.value)} )
-      .style("stroke-width", 4)
-      .style("stroke", "none")
-      .style("opacity", 0.8)
-    .on("mouseover", mouseover)
-    .on("mousemove", mousemove)
-    .on("mouseleave", mouseleave)
-})
 
 // Add title to graph
-svg.append("text")
-        .attr("x", 0)
-        .attr("y", 0)
-        .attr("text-anchor", "left")
-        .style("font-size", "22px")
-        .text("A d3.js heatmap");
+// svg.append("text")
+//         .attr("x", 0)
+//         .attr("y", 0)
+//         .attr("text-anchor", "left")
+//         .style("font-size", "22px")
+//         .text("A d3.js heatmap");
 
-// Add subtitle to graph
-svg.append("text")
-        .attr("x", 0)
-        .attr("y", -20)
-        .attr("text-anchor", "left")
-        .style("font-size", "14px")
-        .style("fill", "grey")
-        .style("max-width", 400)
-        .text("A short description of the take-away message of this chart.");
+// // Add subtitle to graph
+// svg.append("text")
+//         .attr("x", 0)
+//         .attr("y", -20)
+//         .attr("text-anchor", "left")
+//         .style("font-size", "14px")
+//         .style("fill", "grey")
+//         .style("max-width", 400)
+//         .text("A short description of the take-away message of this chart.");
 
 // display(svg.node())
 
-```
+``` -->
 
 </div>
 

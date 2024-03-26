@@ -7,20 +7,20 @@ from diffscore.analysis import pipeline_optim_score, decoder_logistic
 
 if __name__ == "__main__":
     datasets = [
-        "ultrametric",
-        # "MajajHong2015",
+        # "ultrametric",
+        "MajajHong2015",
         # "FreemanZiemba2013",
         # "Hatsopoulos2007",
         # "Mante2013"
     ]
-    # measures = [
-    #     "procrustes-angular-score",
-    #     "cka"
-    # ]
-    # all the scoring measures
     measures = [
-        measure_id.split(".")[-1] for measure_id in Measure("*").keys() if "score" in Card(measure_id.split(".")[-1])["props"]
+        "procrustes-angular-score",
+        "cka"
     ]
+    # all the scoring measures
+    # measures = [
+    #     measure_id.split(".")[-1] for measure_id in Measure("*").keys() if "score" in Card(measure_id.split(".")[-1])["props"]
+    # ]
     # TODO: cca-angular-score MajajHong NaN grad
     print(measures)
 
