@@ -15,7 +15,9 @@ if __name__ == "__main__":
     ]
     measures = [
         "procrustes-angular-score",
-        "cka"
+        "cka",
+        "nbs",
+        "rsa-correlation-corr"
     ]
     # all the scoring measures
     # measures = [
@@ -26,10 +28,14 @@ if __name__ == "__main__":
 
     # save score by measure and aggregate everything in another function
     for dataset in datasets:
+        _save_dir = Path(__file__).parent / "data" / "benchmarks" / dataset
         pipeline_optim_score(
             dataset=dataset,
             measure=measures,
             stop_score=0.99,
             decoder="logistic",
-            save_dir=Path(__file__).parent / "data" / "benchmarks" / dataset,
+            save_dir=_save_dir,
         )
+
+        # res = diffscore.optimize(dataset=dataset, measure=measure, stop_score=0.99)
+        # diffscore.analyze(res, decoder="logistic", save_dir=_save_dir)

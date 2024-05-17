@@ -2,6 +2,8 @@
 import * as d3 from "npm:d3";
 ```
 
+<link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <style>
 
@@ -10,12 +12,12 @@ import * as d3 from "npm:d3";
   flex-direction: column;
   /* Align items to the left */
   align-items: flex-start;
-  font-family: var(--sans-serif);
   /* Center the content horizontally */
   margin-left: auto;
   margin-right: auto;
   /* Set a maximum width for the content */
-  max-width: 950px; 
+  max-width: 900px; 
+  font-family: 'Noto Sans', sans-serif;
 }
 
 .content p, .content h3, .content h2, .content h1 {
@@ -44,11 +46,17 @@ import * as d3 from "npm:d3";
   text-align: center;
 }
 
+.content .title {
+  margin-top: 50px;
+  font-size: 40px;
+}
+
 .content .authors {
   display: flex;
   justify-content: center; /* Center the authors horizontally */
   flex-wrap: wrap; /* Ensure the list wraps if space is insufficient */
-  gap: 25px; /* Space between author names */
+  column-gap: 30px; /* Space between author names */
+  row-gap: 10px; /* Space between author names */
   margin-top: 10px;
   margin-bottom: 0;
   font-style: normal;
@@ -68,6 +76,10 @@ import * as d3 from "npm:d3";
   font-size: smaller;
 }
 
+.content .abstract {
+  max-width: 600px;
+  margin: auto;
+}
 
 .content .observablehq--block {
   /* TODO?: margin: auto; */
@@ -92,6 +104,7 @@ import * as d3 from "npm:d3";
   text-decoration: none;
   font-size: 16px;
   border: 1px solid #ccc; /* Optional: adds a subtle border */
+  margin-top: 25px;
 }
 
 .content .github-link a:hover {
@@ -111,25 +124,60 @@ import * as d3 from "npm:d3";
 
 <!-- <h2 class="authors">Nathan Cloos, Markus Siegel, Scott L. Brincat, Earl K. Miller, Guangyu Robert Yang, Christopher J. Cueva</h2> -->
 <div class="authors">
-  <span>Nathan Cloos<sup>1</sup></span>
-  <span>Markus Siegel<sup>2</sup></span>
-  <span>Scott L. Brincat<sup>1</sup></span>
-  <span>Earl K. Miller<sup>1</sup></span>
-  <span>Guangyu Robert Yang<sup>1</sup></span>
-  <span>Christopher J. Cueva<sup>1</sup></span>
+  <span>Nathan Cloos<sup style="font-size: 10px">1</sup></span>
+  <span>Moufan Li<sup style="font-size: 10px">2</sup></span>
+  <span>Markus Siegel<sup style="font-size: 10px">3</sup></span>
+  <span>Scott L. Brincat<sup style="font-size: 10px">1</sup></span>
+  <span>Earl K. Miller<sup style="font-size: 10px">1</sup></span>
+  <span>Guangyu Robert Yang<sup style="font-size: 10px">1</sup></span>
+  <span>Christopher J. Cueva<sup style="font-size: 10px">1</sup></span>
 </div>
 
 <div class="affiliations">
-  <p><sup>1</sup>MIT BCS</p>
-  <p><sup>2</sup>HIH Tübingen</p>
+  <p><sup style="font-size: 10px">1</sup>MIT BCS</p>
+  <p><sup style="font-size: 10px">2</sup>NYU</p>
+  <p><sup style="font-size: 10px">3</sup>HIH Tübingen</p>
 </div>
 
-<div class="github-link">
-  <a href="https://github.com/nacloos/diffscore" target="_blank">
-    <img src="https://icons.iconarchive.com/icons/papirus-team/papirus-apps/256/github-icon.png" alt="GitHub" width="20">
-    Code
-  </a>
+
+<div style="margin-left: auto; margin-right: auto; display: flex; column-gap: 20px">
+  <div class="github-link">
+    <a href="" target="_blank">
+      <i class="fa fa-file-pdf-o" style="padding-right: 8px; padding-top: 2px; padding-left: 1px"></i>
+      paper
+    </a>
+  </div>
+  <div class="github-link">
+    <a href="" target="_blank">
+      <i class="fa fa-video-camera" style="padding-right: 8px; padding-top: 2px; padding-left: 1px"></i>
+      video
+    </a>
+  </div>
+  <div class="github-link">
+    <a href="" target="_blank">
+      <img style="padding-top: 3px" src="https://icons.iconarchive.com/icons/papirus-team/papirus-apps/256/github-icon.png" alt="GitHub" width="20">
+      paper code
+    </a>
+  </div>
+  <div class="github-link">
+    <a href="" target="_blank">
+      <img style="padding-top: 3px"  src="https://icons.iconarchive.com/icons/papirus-team/papirus-apps/256/github-icon.png" alt="GitHub" width="20">
+      similarity package
+    </a>
+  </div>
 </div>
+<div style="margin-left: auto; margin-right: auto;">
+(available upon publication)
+</div>
+
+
+<img style="margin: auto; margin-top: 4em; margin-bottom: 2em;" src="./data/intro.png" width="650" />
+
+
+<!-- ## Abstract -->
+<h2 class="abstract" style="margin-top: 50px; margin-bottom: 10px">Abstract</h2>
+<p class="abstract" style="margin-bottom: 20px">
+What metrics should guide the development of more realistic models of the brain? One proposal is to quantify the similarity between models and brains using methods such as linear regression, Centered Kernel Alignment (CKA), and Procrustes distance. To better understand the limitations of these similarity measures we analyze neural activity recorded in two experiments on nonhuman primates, and optimize synthetic datasets to become more similar to these neural recordings. How similar can these synthetic datasets be to neural activity while failing to encode task relevant variables? We find that some measures like linear regression and CKA, differ from Procrustes distance, and yield high similarity scores even when task relevant variables cannot be linearly decoded from the synthetic datasets. Synthetic datasets optimized to maximize similarity scores initially learn the first principal component of the target dataset, but Procrustes distance captures higher variance dimensions much earlier than methods like linear regression and CKA.</p>
 
 
 ## Content
@@ -138,21 +186,15 @@ import * as d3 from "npm:d3";
   <li><a href="#scores-to-capture-principal-components">Scores to Capture Principal Components</a></li>
   <li><a href="#high-scores-failing-to-encode-task-variables">High Scores Failing to Encode Task Variables</a></li>
   <li><a href="#metric-cards">Metric Cards</a></li>
+  <li><a href="#similarity-package">Similarity Package</a></li>
 </ul>
-
-## Abstract
-<p>
-What metrics should guide the development of more realistic models of the brain? One proposal is to quantify the similarity between models and brains using methods such as linear regression, Centered Kernel Alignment (CKA), and Procrustes distance. To better understand the limitations of these similarity measures we analyze neural activity recorded in two experiments on nonhuman primates, and optimize synthetic datasets to become more similar to these neural recordings. How similar can these synthetic datasets be to neural activity while failing to encode task relevant variables? We find that some measures like linear regression and CKA, differ from Procrustes distance, and yield high similarity scores even when task relevant variables cannot be linearly decoded from the synthetic datasets. Synthetic datasets optimized to maximize similarity scores initially learn the first principal component of the target dataset, but Procrustes distance captures higher variance dimensions much earlier than methods like linear regression and CKA.</p>
-
 
 ## Optimization of Similarity Scores
 
 
+To better understand the properties of similarity measures we optimize synthetic datasets Y to become more similar to a reference dataset X, for example, neural recordings.
 
-
-Optimize randomly initialized dataset Y (e.g. model dataset) to maximize similarity score with a reference dataset X (e.g. brain dataset).
-
-<img style="margin: auto; margin-bottom: 2em;" src="./score_grad_ascent.png" width="250" />
+<img style="margin: auto; margin-top: 1em; margin-bottom: 2em;" src="./data/score_grad_ascent.png" width="250" />
 
 
 <!-- 
@@ -182,16 +224,18 @@ Y_{k+1}  = Y_k + \alpha \dfrac{\partial}{\partial Y} \text{score}(X, Y_k)
 
 
 ## Scores to Capture Principal Components
+Different similarity measures differentially prioritize learning principal components of
+the data.
 <div style="margin-bottom: 10px"></div>
 
 ```js
 const pcDatasets = new Map([
   ["Ultrametric",       FileAttachment("data/benchmarks/ultrametric/scores_at_threshold.csv").csv({typed: true})],
   // ["siegel15-V4-var99", FileAttachment("data/benchmarks/siegel15-V4-var99/scores_at_threshold.csv").csv({typed: true})],
-  // ["MajajHong2015",     FileAttachment("data/benchmarks/MajajHong2015/scores_at_threshold.csv").csv({typed: true})],
-  // ["FreemanZiemba2013", FileAttachment("data/benchmarks/FreemanZiemba2013/scores_at_threshold.csv").csv({typed: true})],
-  // ["Hatsopoulos2007",   FileAttachment("data/benchmarks/Hatsopoulos2007/scores_at_threshold.csv").csv({typed: true})],
-  // ["Mante2013",         FileAttachment("data/benchmarks/Mante2013/scores_at_threshold.csv").csv({typed: true})],
+  ["MajajHong2015",     FileAttachment("data/benchmarks/MajajHong2015/scores_at_threshold.csv").csv({typed: true})],
+  ["FreemanZiemba2013", FileAttachment("data/benchmarks/FreemanZiemba2013/scores_at_threshold.csv").csv({typed: true})],
+  ["Hatsopoulos2007",   FileAttachment("data/benchmarks/Hatsopoulos2007/scores_at_threshold.csv").csv({typed: true})],
+  ["Mante2013",         FileAttachment("data/benchmarks/Mante2013/scores_at_threshold.csv").csv({typed: true})],
 ])
 const pcDatasetIds = Array.from(pcDatasets.keys());
 const pcDataset = view(Inputs.select(pcDatasets, {label: "Dataset"}));
@@ -253,20 +297,19 @@ if (pcFilteredScores.length === 0) {
 
 ## High Scores Failing to Encode Task Variables
 Optimizing for similarity scores reveals model datasets with high scores that fail to encode all the relevant task variables.
-Select a dataset and a set of metrics to compare.
+<!-- Select a dataset and a set of metrics to compare. -->
 
 <div style="margin-bottom: 20px"></div>
 
 ```js
 // it seems that FileAttachment requires the path to be give as a single string literal
 const datasets = new Map([
-  // ["Ultrametric", FileAttachment("data/decoding_acc_vs_scores/ultrametric.csv").csv({typed: true})],
-  ["Ultrametric", FileAttachment("data/benchmarks/ultrametric/scores_vs_decoding_acc.csv").csv({typed: true})],
+  ["Ultrametric",       FileAttachment("data/benchmarks/ultrametric/scores_vs_decoding_acc.csv").csv({typed: true})],
 //  ["siegel15-V4-var99", FileAttachment("data/siegel15-V4-var99.csv").csv({typed: true})],
-  ["MajajHong2015", FileAttachment("data/decoding_acc_vs_scores/MajajHong2015.csv").csv({typed: true})],
-  ["FreemanZiemba2013", FileAttachment("data/decoding_acc_vs_scores/FreemanZiemba2013.csv").csv({typed: true})],
-  ["Hatsopoulos2007", FileAttachment("data/decoding_acc_vs_scores/Hatsopoulos2007.csv").csv({typed: true})],
-  ["Mante2013", FileAttachment("data/decoding_acc_vs_scores/Mante2013.csv").csv({typed: true})],
+  ["MajajHong2015",     FileAttachment("data/benchmarks/MajajHong2015/scores_vs_decoding_acc.csv").csv({typed: true})],
+  ["FreemanZiemba2013", FileAttachment("data/benchmarks/FreemanZiemba2013/scores_vs_decoding_acc.csv").csv({typed: true})],
+  ["Hatsopoulos2007",   FileAttachment("data/benchmarks/Hatsopoulos2007/scores_vs_decoding_acc.csv").csv({typed: true})],
+  ["Mante2013",         FileAttachment("data/benchmarks/Mante2013/scores_vs_decoding_acc.csv").csv({typed: true})],
 ]);
 const datasetIds = Array.from(datasets.keys());
 ```
@@ -403,8 +446,9 @@ function formatBoolean(x) {
 }
 ```
 
-<div style="margin-top: 10px">
-Invariance classes:
+<div style="margin-top: 10px; margin-bottom: 25px">
+
+<p style="font-size: 14px">Invariance classes:</p>
 <ul style="font-size: 14px; list-style-type: none; margin: 0;">
   <li><b>PT</b>: Permutation Transformation</li>
   <li><b>OT</b>: Orthogonal Transformation</li>
@@ -416,7 +460,22 @@ Invariance classes:
 </div>
 
 
-<img src="data/cards/backends_matrix.png" width="1000" />
+<!-- TODO: Metric Relations -->
+
+## Similarity Package
+
+We also provide a Python package that gathers existing implementations of similarity measures into a single package with a common and customizable interface.
+
+<img style="margin-top: 10px" src="data/implemented_measures.png" width="1000" />
+
+
+<!-- TODO: solve inconsistencies across backends -->
+<!-- In the figure below, we compare our implementations (diffscore) to other already published implementations.
+<a href="https://github.com/nacloos/similarity-repository">
+  https://github.com/nacloos/similarity-repository
+</a> -->
+
+<!-- <img src="data/cards/backends_matrix.png" width="1000" /> -->
 
 <!-- TODO: relationships between measures? -->
 
