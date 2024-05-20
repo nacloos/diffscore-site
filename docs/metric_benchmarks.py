@@ -7,17 +7,19 @@ from diffscore.analysis import pipeline_optim_score, decoder_logistic
 
 if __name__ == "__main__":
     datasets = [
-        # "ultrametric",
+        "ultrametric",
         "MajajHong2015",
-        # "FreemanZiemba2013",
+        "FreemanZiemba2013",
         # "Hatsopoulos2007",
         # "Mante2013"
     ]
     measures = [
-        "procrustes-angular-score",
         "cka",
+        "cka-angular-score",
         "nbs",
-        "rsa-correlation-corr"
+        "procrustes-angular-score",
+        "rsa-correlation-corr",
+        "ridge-lambda100-r2#5folds_cv"
     ]
     # all the scoring measures
     # measures = [
