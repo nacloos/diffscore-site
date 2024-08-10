@@ -7,19 +7,22 @@ from diffscore.analysis import pipeline_optim_score, decoder_logistic
 
 if __name__ == "__main__":
     datasets = [
-        "ultrametric",
-        "MajajHong2015",
-        "FreemanZiemba2013",
+        # "ultrametric",
+        # "MajajHong2015",
+        # "FreemanZiemba2013",
         # "Hatsopoulos2007",
-        # "Mante2013"
+        "Mante2013",
+        # "siegel15-FEF-stim_period-var99"
     ]
     measures = [
         "cka",
-        "cka-angular-score",
-        "nbs",
-        "procrustes-angular-score",
-        "rsa-correlation-corr",
-        "ridge-lambda100-r2#5folds_cv"
+        # "cka-angular-score",
+        # "nbs",
+        # "procrustes-angular-score",
+        # "linreg",
+        # "rsa-correlation-corr",
+        # "ridge-lambda100-r2#5folds_cv",
+        # "linreg"
     ]
     # all the scoring measures
     # measures = [
@@ -30,7 +33,7 @@ if __name__ == "__main__":
 
     # save score by measure and aggregate everything in another function
     for dataset in datasets:
-        _save_dir = Path(__file__).parent / "data" / "benchmarks" / dataset
+        _save_dir = Path(__file__).parent / "data" / "benchmarks_cka" / dataset
         pipeline_optim_score(
             dataset=dataset,
             measure=measures,
