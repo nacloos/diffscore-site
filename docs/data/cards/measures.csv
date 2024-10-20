@@ -1,9 +1,0 @@
-id,name,score,permutation,orthogonal,invertible-linear,isotropic-scaling,translation,affine
-cka-angular-score,CKA Angular Score,True,True,True,False,True,True,False
-rsa-correlation-corr,Representational Similarity Analysis,True,True,False,False,True,True,False
-procrustes-angular-score,Procrustes Angular Score,True,True,True,False,True,False,False
-cca-angular-score,CCA Angular Score,True,True,True,True,True,True,True
-nbs-squared,NBS Squared,True,True,True,False,True,False,False
-nbs,Normalized Bures Similarity,True,True,True,False,True,False,False
-nbs-angular-score,NBS Angular Score,True,True,True,False,True,False,False
-cka,Centered Kernel Alignment,True,True,True,False,True,True,False
