@@ -1,5 +1,5 @@
 export default {
-  title: "Observable Plot downloads",
+  title: "Differentiable Optimization of Similarity Scores Between Models and Brains",
   theme: "wide",
   pager: false,
   toc: false,

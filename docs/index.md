@@ -30,7 +30,7 @@ import * as d3 from "npm:d3";
 }
 
 .content h3 {
-  margin-top: 5px;
+  margin-top: 20px;
   margin-bottom: 10px;
 }
 
@@ -47,7 +47,7 @@ import * as d3 from "npm:d3";
 }
 
 .content .title {
-  margin-top: 50px;
+  margin-top: 40px;
   font-size: 40px;
 }
 
@@ -142,44 +142,45 @@ import * as d3 from "npm:d3";
 
 <div style="margin-left: auto; margin-right: auto; display: flex; column-gap: 20px">
   <div class="github-link">
-    <a href="" target="_blank">
+    <a href="https://arxiv.org/pdf/2407.07059" target="_blank">
       <i class="fa fa-file-pdf-o" style="padding-right: 8px; padding-top: 2px; padding-left: 1px"></i>
       paper
     </a>
   </div>
   <div class="github-link">
-    <a href="" target="_blank">
+    <a href="https://www.youtube.com/live/urOMQGGdhCM?feature=shared&t=6383" target="_blank">
       <i class="fa fa-video-camera" style="padding-right: 8px; padding-top: 2px; padding-left: 1px"></i>
       video
     </a>
   </div>
   <div class="github-link">
-    <a href="" target="_blank">
+    <a href="https://github.com/nacloos/diffscore" target="_blank">
       <img style="padding-top: 3px" src="https://icons.iconarchive.com/icons/papirus-team/papirus-apps/256/github-icon.png" alt="GitHub" width="20">
-      paper code
+      code
     </a>
   </div>
-  <div class="github-link">
+  <!-- <div class="github-link">
     <a href="" target="_blank">
       <img style="padding-top: 3px"  src="https://icons.iconarchive.com/icons/papirus-team/papirus-apps/256/github-icon.png" alt="GitHub" width="20">
       similarity package
     </a>
-  </div>
+  </div> -->
 </div>
 <div style="margin-left: auto; margin-right: auto;">
-(available upon publication)
 </div>
 
 
-<img style="margin: auto; margin-top: 4em; margin-bottom: 2em;" src="./data/intro.png" width="650" />
-
+<!-- <img style="margin: auto; margin-top: 4em; margin-bottom: 2em;" src="./data/intro.png" width="650" /> -->
+<img style="margin: auto; margin-top: 4em; margin-bottom: 2em;" src="./data/animations/intro.gif" width="560" />
+<iframe style="margin: auto; margin-top: 2em; margin-bottom: 2em;" width="560" height="315" src="https://www.youtube.com/embed/urOMQGGdhCM?start=6385" title="Presentation" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 <!-- ## Abstract -->
-<h2 class="abstract" style="margin-top: 50px; margin-bottom: 10px">Abstract</h2>
+<!-- <h2 class="abstract" style="margin-top: 50px; margin-bottom: 10px">Abstract</h2>
 <p class="abstract" style="margin-bottom: 20px">
-What metrics should guide the development of more realistic models of the brain? One proposal is to quantify the similarity between models and brains using methods such as linear regression, Centered Kernel Alignment (CKA), and Procrustes distance. To better understand the limitations of these similarity measures we analyze neural activity recorded in two experiments on nonhuman primates, and optimize synthetic datasets to become more similar to these neural recordings. How similar can these synthetic datasets be to neural activity while failing to encode task relevant variables? We find that some measures like linear regression and CKA, differ from Procrustes distance, and yield high similarity scores even when task relevant variables cannot be linearly decoded from the synthetic datasets. Synthetic datasets optimized to maximize similarity scores initially learn the first principal component of the target dataset, but Procrustes distance captures higher variance dimensions much earlier than methods like linear regression and CKA.</p>
+How do we know if two systems – biological or artificial – process information in a similar way? Similarity measures such as linear regression, Centered Kernel Alignment (CKA), Normalized Bures Similarity (NBS), and angular Procrustes distance, are often used to quantify this similarity. However, it is currently unclear what drives high similarity scores and even what constitutes a “good” score. Here, we introduce a novel tool to investigate these questions by differentiating through similarity measures to directly maximize the score. Surprisingly, we find that high similarity scores do not guarantee that models encode task-relevant information in a manner consistent with neural data; and this is particularly acute for CKA and even some variations of cross-validated and regularized linear regression. We find that there is no universal threshold for a good similarity score—it depends on both the measure and the dataset. In addition, synthetic datasets optimized to maximize similarity scores initially learn the highest variance principal component of the target dataset, but some methods like angular Procrustes capture lower variance dimensions much earlier than methods like CKA. To shed light on this, we mathematically derive the sensitivity of CKA, angular Procrustes, and NBS to the variance of principal component dimensions, and explain the emphasis CKA places on high variance components. Finally, by jointly optimizing multiple similarity measures, we characterize their allowable ranges and reveal that some similarity measures are more constraining than others: a high angular Procrustes similarity implies a high CKA score, but not the converse. While current measures offer a seemingly straightforward way to quantify the similarity between neural systems, our work underscores the need for carefully interpreting similarity scores. In addition, we hope that the tools we developed will be used by practitioners to better understand current and future similarity measures.
+</p> -->
 
-
+<!-- 
 ## Content
 <ul style="margin: 0;">
   <li><a href="#optimization-of-similarity-scores">Optimization of Similarity Scores</a></li>
@@ -187,15 +188,20 @@ What metrics should guide the development of more realistic models of the brain?
   <li><a href="#high-scores-failing-to-encode-task-variables">High Scores Failing to Encode Task Variables</a></li>
   <li><a href="#metric-cards">Metric Cards</a></li>
   <li><a href="#similarity-package">Similarity Package</a></li>
-</ul>
+</ul> -->
 
-## Optimization of Similarity Scores
+## Introduction
 
+How do we know if two systems – biological or artificial – process information in a similar way? Similarity measures such as linear regression, Centered Kernel Alignment (CKA), Normalized Bures Similarity (NBS), and angular Procrustes distance, are often used to quantify this similarity. However, it is currently unclear what drives high similarity scores and even what constitutes a “good” score. Here, we introduce a novel tool to investigate these questions by differentiating through similarity measures to directly maximize the score. 
 
-To better understand the properties of similarity measures we optimize synthetic datasets Y to become more similar to a reference dataset X, for example, neural recordings.
+<br>
+To evaluate the similarity of representations between two systems, we extract feature representations such as activity in a brain area or model layer in response to some sample stimuli. Our objective is to quantify the alignment between these representations using a similarity score. We define a scoring function score(X, Y) as a measure that increases with similarity, achieving a maximum of 1 when X = Y.
 
-<img style="margin: auto; margin-top: 1em; margin-bottom: 2em;" src="./data/score_grad_ascent.png" width="250" />
+## Optimization of similarity scores
+We identify what drives high similarity scores by differentiating through similarity measures to directly maximize the score.
+Given a target dataset X, for example a neural dataset, we initialize a synthetic dataset Y by randomly sampling from a standard Gaussian distribution with the same shape as X. We optimize Y to maximize the similarity score with X, leveraging the differentiability of the similarity measures.
 
+<img style="margin: auto; margin-top: 1em; margin-bottom: 2em;" src="./data/score_grad_ascent.png" width="290" />
 
 <!-- 
 TODO: error loading tex.js when deployed
@@ -203,6 +209,7 @@ TODO: error loading tex.js when deployed
 Y_{k+1}  = Y_k + \alpha \dfrac{\partial}{\partial Y} \text{score}(X, Y_k)
 ``` -->
 
+We visualize the optimization process for a few similarity measures below. The dataset on the left is the reference dataset X, and the datasets on the right are the synthetic datasets Y for different similarity measures.
 <div style="display: flex; justify-content: space-around; align-items: center; margin: auto;">
   <div style="text-align: center; width: 200px;">
     <p style="text-align: center">Reference</p>
@@ -223,7 +230,83 @@ Y_{k+1}  = Y_k + \alpha \dfrac{\partial}{\partial Y} \text{score}(X, Y_k)
 </div>
 
 
-## Scores to Capture Principal Components
+We also evaluate how each principal component (PC) of the reference dataset X is captured as Y is optimized for similarity. What do we learn? CKA can be near its maximum value even when only the first principal component is captured. 
+
+<img style="margin: auto; margin-top: 1em; margin-bottom: 2em;" src="./data/fig_pc.png" />
+
+In the [paper](https://arxiv.org/pdf/2407.07059), we present theoretical analyses to explain these results. In particular, we mathematically derive the sensitivity of CKA, angular Procrustes, and Normalized Bures Similarity to the variance of principal component dimensions, and explain the dependence CKA shows to high variance components.
+
+
+## What is a good similarity score?
+Our approach to address this question is to examine, across five neural datasets, the similarity score required for a synthetic dataset to encode task relevant information to the same degree as the neural data.
+
+
+<img style="margin: auto; margin-top: 1em; margin-bottom: 2em;" src="./data/fig3.png" />
+
+What is a good value for a similarity score? There is no absolute answer! An angular Procrustes score above 0.5 may constitute a good score for the Mante 2013 dataset but a score above 0.8 is required for the Siegel 2015 dataset. And this also depends on the similarity measure.
+
+<br>
+Another crucial point to make with the figure above is that high similarity scores near the maximum value of 1, particularly for CKA and unregularized linear regression without cross-validation, do not guarantee that models encode task-relevant information in a manner consistent with neural data, i.e. the CKA and linear regression curves in the Siegel 2015 dataset do not approach the horizontal line showing the decode accuracy for the neural data. There may be important features in a dataset that are not captured by a model even when the model-data similarity score is high.
+
+### Ridge Regression
+Let's take a closer look at ridge regression scores, examining how they change as we vary the regularization strength λ.
+
+<img style="margin: auto; margin-top: 1em; margin-bottom: 2em;" src="./data/figS2.png" />
+
+This figure highlights that for linear regression methods, including those that are cross-validated and regularized, a high similarity score does not always guarantee that task-relevant information is encoded in a manner consistent with the neural data. In other words, high similarity scores can be achieved without fully capturing the important features of the neural representations.
+
+<br>
+This underscores the need for caution when interpreting similarity scores, especially in the context of comparing artificial and biological neural representations. It suggests that while similarity measures like ridge regression are useful tools, they should be used in conjunction with other analyses to ensure a comprehensive understanding of how well a model captures the key aspects of neural data.
+
+
+## Are metrics mutually independent?
+A natural question that arises is whether different similarity metrics are independent of each other, or if they exhibit consistent relationships. To address this, we consider three possible relationships between any two given similarity metrics:
+<div style="display: flex; align-items: center; justify-content: space-between;">
+  <div style="flex: 1;">
+    <ul>
+      <li><strong>Independent:</strong> A high score on one metric does not guarantee a high score on the other.</li>
+      <li><strong>Coupled:</strong> A high score on one metric implies a high score on the other, and vice versa.</li>
+      <li><strong>Asymmetric:</strong> A high score on the first metric guarantees a high score on the second, but not the other way around.</li>
+    </ul>
+  </div>
+  <div style="flex: 1;">
+    <img src="./data/fig7a.png" width="300" style="display: block; margin: auto;" />
+  </div>
+</div>
+
+We characterize the allowable range of scores between two different similarity measures by jointly optimizing their scores.
+
+<img style="margin: auto; margin-top: 1em; margin-bottom: 2em;" src="./data/fig7b.png" width="500" />
+
+The figure above shows that a high angular Procrustes similarity implies a high CKA score, but not the converse. A high value of angular Procrustes implies a high score for unregularized linear regression but linear regression that is regularized and cross-validated across experimental conditions can take independent values.
+
+
+## Standardizing similarity measures
+
+We are also developing a Python package to make it easier to compare similarity measures across studies. We currently have around 100 different similarity measures from 14 papers registered and standardized to a common interface.
+
+<div style="margin-left: auto; margin-right: auto; display: flex; column-gap: 20px">
+  <div class="github-link">
+    <a href="https://arxiv.org/pdf/2409.18333" target="_blank">
+      <i class="fa fa-file-pdf-o" style="padding-right: 8px; padding-top: 2px; padding-left: 1px"></i>
+      package paper
+    </a>
+  </div>
+  <div class="github-link">
+    <a href="https://github.com/nacloos/similarity-repository" target="_blank">
+      <img style="padding-top: 3px" src="https://icons.iconarchive.com/icons/papirus-team/papirus-apps/256/github-icon.png" alt="GitHub" width="20">
+      package code
+    </a>
+  </div>
+</div>
+
+<br>
+<img style="margin-top: 10px" src="data/implemented_measures.png" width="1000" />
+
+
+
+
+<!-- ## Scores to Capture Principal Components
 Different similarity measures differentially prioritize learning principal components of
 the data.
 <div style="margin-bottom: 10px"></div>
@@ -292,12 +375,11 @@ if (pcFilteredScores.length === 0) {
 } else {
   display(pcPlotScores);
 }
-```
+``` -->
 
-
+<!-- 
 ## High Scores Failing to Encode Task Variables
 Optimizing for similarity scores reveals model datasets with high scores that fail to encode all the relevant task variables.
-<!-- Select a dataset and a set of metrics to compare. -->
 
 <div style="margin-bottom: 20px"></div>
 
@@ -317,10 +399,6 @@ const datasetIds = Array.from(datasets.keys());
 ```js
 const selectedData = view(Inputs.select(datasets, {label: "Dataset"}))
 ```
-
-<!-- TODO? paper link -->
-<!-- https://www.biorxiv.org/content/10.1101/2021.07.14.452926v1.full.pdf -->
-<!-- <a style="margin: 0; font-size: 12px" href="https://www.biorxiv.org/content/10.1101/2021.07.14.452926v1.full.pdf" target="_blank">Link to paper</a> -->
 
 <div style="margin-bottom: 8px"></div>
 
@@ -390,10 +468,10 @@ if (filteredScores.length === 0) {
 } else {
   display(plotScores);
 }
-```
+``` -->
 
 
-## Metric Cards
+<!-- ## Metric Cards
 ### Invariances Properties
 
 
@@ -444,8 +522,8 @@ function formatBoolean(x) {
     return "";
   }
 }
-```
-
+``` -->
+<!-- 
 <div style="margin-top: 10px; margin-bottom: 25px">
 
 <p style="font-size: 14px">Invariance classes:</p>
@@ -457,16 +535,11 @@ function formatBoolean(x) {
   <li><b>TR</b>: Translation</li>
   <li><b>AT</b>: Affine Transformation</li>
 <ul>
-</div>
+</div> -->
 
 
 <!-- TODO: Metric Relations -->
 
-## Similarity Package
-
-We also provide a Python package that gathers existing implementations of similarity measures into a single package with a common and customizable interface.
-
-<img style="margin-top: 10px" src="data/implemented_measures.png" width="1000" />
 
 
 <!-- TODO: solve inconsistencies across backends -->
