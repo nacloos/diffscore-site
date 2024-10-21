@@ -224,7 +224,7 @@ We visualize the optimization process for a few similarity measures below. The d
     <img src="./data/animations/cka.gif" width="150" />
   </div>
   <div style="text-align: center; width: 200px;">
-    <p style="text-align: center">Procrustes Angular Score</p>
+    <p style="text-align: center">Angular Procrustes</p>
     <img src="./data/animations/procrustes-angular-score.gif" width="150" />
   </div>
 </div>
